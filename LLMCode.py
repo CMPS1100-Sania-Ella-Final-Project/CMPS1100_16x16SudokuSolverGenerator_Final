@@ -61,7 +61,7 @@ class SudokuSolver:
 # Example usage:
 # Define a 9x9 Sudoku puzzle (0 denotes an empty cell)
 board = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [5, 3, 4, 0, 7, 0, 0, 0, 0],
     [6, 0, 0, 1, 9, 5, 0, 0, 0],
     [0, 9, 8, 0, 0, 0, 0, 6, 0],
     [8, 0, 0, 0, 6, 0, 0, 0, 3],
@@ -77,19 +77,3 @@ if solver.solve():
     solver.print_board()
 else:
     print("No solution exists.")
-
-
-def get_matrix_dimensions(matrix):
-    if not matrix or not all(len(row) == len(matrix) for row in matrix):
-        raise ValueError("Input must be a square matrix.")
-    return len(matrix), len(matrix[0])
-
-# Example usage:
-matrix = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-]
-dimensions = get_matrix_dimensions(matrix)
-print(f"The matrix has dimensions: {dimensions[0]}x{dimensions[1]}")
-
