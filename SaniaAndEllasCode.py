@@ -1,9 +1,9 @@
-
 # N is the size of the 2D matrix   N*N
 N = 16
 
 # A utility function to print grid
 def printing(arr):
+
     for i in range(N):
         for j in range(N):
             print(arr[i][j], end = " ")
@@ -13,7 +13,7 @@ def printing(arr):
 # legal to assign num to the
 # given row, col
 def isSafe(grid, row, col, num):
-  
+    
     # Check if we find the same num
     # in the similar row , we
     # return false
@@ -45,12 +45,13 @@ def isSafe(grid, row, col, num):
 # Sudoku solution (non-duplication across rows,
 # columns, and boxes) */
 def solveSudoku(grid, row, col):
-  
+
     # Check if we have reached the 8th
     # row and 9th column (0
     # indexed matrix) , we are
     # returning true to avoid
     # further backtracking
+    
     if (row == N - 1 and col == N):
         return True
       
