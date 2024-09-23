@@ -3,16 +3,28 @@ N = 16
 
 # A utility function to print grid
 def printing(arr):
+    N = len(arr)  # Assuming it's a square grid (NxN)
+    subgrid_size = int(N ** 0.5)  # 4x4 subgrid for a 16x16 grid
+
     for i in range(N):
+        # Add a horizontal line between subgrids
+        if i % subgrid_size == 0 and i != 0:
+            print("--" * (N + subgrid_size - 1))  # Extra dashes for subgrid separation
+
         for j in range(N):
-            print(arr[i][j], end = " ")
-        print()
+            # Add a vertical space between subgrids
+            if j % subgrid_size == 0 and j != 0:
+                print("|", end=" ")
+
+            print(arr[i][j], end=" ")
+        
+        print()  # Move to the next line after each row
 
 # Checks whether it will be
 # legal to assign num to the
 # given row, col
 def isSafe(grid, row, col, num):
-  
+    
     # Check if we find the same num
     # in the similar row , we
     # return false
@@ -28,7 +40,7 @@ def isSafe(grid, row, col, num):
             return False
 
     # Check if we find the same num in
-    # the particular 3*3 matrix,
+    # the particular 4*4 matrix,
     # we return false
     startRow = row - row % 4
     startCol = col - col % 4
@@ -45,8 +57,8 @@ def isSafe(grid, row, col, num):
 # columns, and boxes) */
 def solveSudoku(grid, row, col):
   
-    # Check if we have reached the 8th
-    # row and 9th column (0
+    # Check if we have reached the 15th
+    # row and 16th column (0
     # indexed matrix) , we are
     # returning true to avoid
     # further backtracking
@@ -54,7 +66,7 @@ def solveSudoku(grid, row, col):
        
         return True
       
-    # Check if column value  becomes 9 ,
+    # Check if column value  becomes 16 ,
     # we move to next row and
     # column start from 0
     if col == N:
@@ -66,10 +78,11 @@ def solveSudoku(grid, row, col):
     # value >0, we iterate for next column
     if grid[row][col] > 0:
         return solveSudoku(grid, row, col + 1)
+    
     for num in range(1, N + 1, 1):
       
         # Check if it is safe to place
-        # the num (1-9)  in the
+        # the num (1-16)  in the
         # given row ,col  ->we
         # move to next column
         if isSafe(grid, row, col, num):
@@ -119,5 +132,6 @@ grid = [[0, 5, 0, 0, 0, 0, 11, 10, 16, 12, 3, 14, 0, 2, 6, 0],
 if (solveSudoku(grid, 0, 0)):
     printing(grid)
 else:
-    print("no solution  exists ")
+    print("no solution exists ")
+
 
