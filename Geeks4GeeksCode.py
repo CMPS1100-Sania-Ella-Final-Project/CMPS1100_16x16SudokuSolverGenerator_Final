@@ -51,7 +51,7 @@ def solveSudoku(grid, row, col):
     # returning true to avoid
     # further backtracking
     if (row == N - 1 and col == N):
-        print('hi')
+       
         return True
       
     # Check if column value  becomes 9 ,
