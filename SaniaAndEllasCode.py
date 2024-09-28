@@ -20,6 +20,19 @@ def printing(arr):
         
         print()  # Move to the next line after each row
 
+
+#Function to confirm input is a valid sudoku
+def isValidSudoku(grid):
+    for row in range(N):
+        for col in range(N):
+            num = grid[row][col]
+            if num != 0:    #checks only non empty cells
+                grid[row][col] = 0
+                if not isSafe(grid, row, col, num):
+                    return False
+            grid[row][col] = num
+    return True
+
 # Checks whether it will be
 # legal to assign num to the
 # given row, col
