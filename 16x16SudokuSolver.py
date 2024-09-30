@@ -6,7 +6,7 @@ def printing(arr):
     N = len(arr)  # Assuming it's a square grid (NxN)
     subgrid_size = int(N ** 0.5)  # 4x4 subgrid for a 16x16 grid
 
-    for i in range(N):
+    for i in range(N): #creates separations between boxes for clarity
         # Add a horizontal line between subgrids
         if i % subgrid_size == 0 and i != 0:
             print("--" * (N + subgrid_size - 1))  # Extra dashes for subgrid separation
@@ -27,10 +27,10 @@ def isValidSudoku(grid):
         for col in range(N):
             num = grid[row][col]
             if num != 0:    #checks only non empty cells
-                grid[row][col] = 0
+                grid[row][col] = 0  #set to 0 in order to run isSafe function
                 if not isSafe(grid, row, col, num):
-                    return False
-            grid[row][col] = num
+                    return False #false prints "no solution exists"
+            grid[row][col] = num #return to original if isSafe passes
     return True
 
 # Checks whether it will be
@@ -127,15 +127,15 @@ def user_input_sudoku():
     print("Enter the Sudoku grid row by row. Use 0 for empty cells.")
     
     i = 0  # Row counter
-    while i < N:
+    while i < N: # counts tto row 16
         try:
-            row_input = input(f"Enter row {i + 1} (16 numbers separated by spaces, or type 'back' to go to the previous row): ").strip()
+            row_input = input(f"Enter row {i + 1} (16 numbers separated by spaces, or type 'back' to go to the previous row): ").strip() #.strip removes whitespace
 
-            if row_input.lower() == "back":
+            if row_input.lower() == "back": #mechanism to return to last row if messed up
                 if i > 0:
                     print(f"Going back to row {i}.")
                     i -= 1  # Go back to the previous row
-                    grid.pop()  # Remove the last row entered
+                    grid.pop()  # Remove the last row entered with .pop
                     continue
                 else:
                     print("You're already at the first row, can't go back further.")
@@ -143,14 +143,14 @@ def user_input_sudoku():
 
             row = [int(num) for num in row_input.split()]
 
-            if len(row) == N:
-                grid.append(row)
+            if len(row) == N: #if input is the correct length
+                grid.append(row) #add input 
                 i += 1  # Move to the next row
             else:
-                print(f"Please enter exactly {N} numbers.")
+                print(f"Please enter exactly {N} numbers.") #error for wrong length
 
         except ValueError:
-            print("Invalid input. Please enter 16 integers separated by spaces or 'back' to go back.")
+            print("Invalid input. Please enter 16 integers separated by spaces or 'back' to go back.") #error for non int or "back" u input
 
     return grid
 # Driver Code
@@ -158,7 +158,7 @@ def user_input_sudoku():
 # 0 means unassigned cells
 
 if __name__ == "__main__": #starts automatically when run directly
-    print("Welcome to the 16x16 Sudoku Solver!")
+    print("Welcome to our 16x16 Sudoku Solver!")
     
     # Take the user input grid
     grid = user_input_sudoku()
@@ -168,11 +168,12 @@ if __name__ == "__main__": #starts automatically when run directly
 
     # Check if the input grid is a valid Sudoku puzzle
     if isValidSudoku(grid):
-        print("\nSolving the Sudoku puzzle...\n")
-        if solveSudoku(grid, 0, 0):
+        print("\nSolving the Sudoku puzzle...\n") #if valid, solve
+        if solveSudoku(grid, 0, 0): #start at row 0, col 0
             print("Solved Sudoku grid:")
             printing(grid)
         else:
-            print("This Sudoku puzzle cannot be solved.")
+            print("This Sudoku puzzle cannot be solved.") #valid sudoku with no solution
     else:
-        print("The input Sudoku puzzle is not valid.")
+        print("The input Sudoku puzzle is not valid.") #invalid sudoku
+    

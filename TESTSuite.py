@@ -19,18 +19,13 @@ testing(Sudoku_Examples.puzzle2)
 print('----')
 testing(Sudoku_Examples.puzzle3)
 print('----')
-testing(Sudoku_Examples.puzzle4)
-print('----')
+
 testing(Sudoku_Examples.puzzle5)
 print('----')
-#Prints Wrong
 testing(Sudoku_Examples.puzzle6)
-
 print('----')
 testing(Sudoku_Examples.puzzle7)
-
-#works (prints no solution)
 print('----')
 testing(Sudoku_Examples.puzzle8)
-
-#puzzle 4 and 5 overwhelm it
+print('----')
+testing(Sudoku_Examples.puzzle4)
