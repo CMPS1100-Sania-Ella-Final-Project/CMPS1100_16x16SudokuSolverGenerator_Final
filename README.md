@@ -5,6 +5,6 @@ This code was written as part of the Midterm Project in 2024 for our Foundations
 
 INSTRUCTIONS:
 #1. Clone the repository using 'git clone.'
-#2. Run 'python3 16x16SudokuSolver.py' with python version 3.12.5 or if you have an existing IDE, you should be able to open the file and run it directly.
+#2. Run 'python3 GUICode.py' with python version 3.12.5 or if you have an existing IDE, you should be able to open the file and run it directly.
 #3. Follow the instructions and let us know how you like it!
 
