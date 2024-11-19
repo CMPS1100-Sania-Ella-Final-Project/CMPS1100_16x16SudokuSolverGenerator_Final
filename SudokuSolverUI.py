@@ -1,6 +1,6 @@
-import random
 # N is the size of the 2D matrix   N*N
 N = 16
+import random
 
 # A utility function to print grid
 def printing(arr):
@@ -23,16 +23,32 @@ def printing(arr):
 
 
 #Function to confirm input is a valid sudoku
-def isValidSudoku(grid):
-    for row in range(N):
-        for col in range(N):
+def isValidSudoku(entries):
+    grid = []
+    invalid_cells = []  # List to track invalid entries
+
+    # Convert entries to a 2D list
+    for row in entries:
+        grid_row = []
+        for entry in row:
+            try:
+                value = int(entry.get()) if entry.get() != "" else 0
+                grid_row.append(value)
+            except ValueError:
+                grid_row.append(0)  # Treat empty cells as 0
+        grid.append(grid_row)
+    
+    # Check if the grid is valid
+    for row in range(16):
+        for col in range(16):
             num = grid[row][col]
-            if num != 0:    #checks only non empty cells
+            if num != 0:  # Only check non-empty cells
                 grid[row][col] = 0
                 if not isSafe(grid, row, col, num):
-                    return False
+                    invalid_cells.append((row, col))
             grid[row][col] = num
-    return True
+
+    return invalid_cells
 
 # Checks whether it will be
 # legal to assign num to the
@@ -154,46 +170,3 @@ def user_input_sudoku():
             print("Invalid input. Please enter 16 integers separated by spaces or 'back' to go back.")
 
     return grid
-
-#function to creat 16X16 answer key
-def generate_solvedSudoku(remove_count=40):
-    # Generate a completed Sudoku grid
-    def fill_grid(grid):
-        numbers = list(range(1, 10))
-        for i in range(9):
-            for j in range(9):
-                if grid[i][j] == 0:
-                    random.shuffle(numbers)
-                    for num in numbers:
-                        if is_valid(grid, i, j, num):
-                            grid[i][j] = num
-                            if fill_grid(grid):
-                                return True
-                            grid[i][j] = 0
-                    return False
-        return True
-
-
-# Driver Code
-# 0 means unassigned cells
-#pausing driver code for GUI
-
-#if __name__ == "__main__": #starts automatically when run directly
-    print("Welcome to the 16x16 Sudoku Solver!")
-    
-    # Take the user input grid
-    grid = user_input_sudoku()
-
-    print("\nHere is the Sudoku puzzle you entered:")
-    printing(grid)
-
-    # Check if the input grid is a valid Sudoku puzzle
-    if isValidSudoku(grid):
-        print("\nSolving the Sudoku puzzle...\n")
-        if solveSudoku(grid, 0, 0):
-            print("Solved Sudoku grid:")
-            printing(grid)
-        else:
-            print("This Sudoku puzzle cannot be solved.")
-    else:
-        print("The input Sudoku puzzle is not valid.")
