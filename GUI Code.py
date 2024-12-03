@@ -1,9 +1,7 @@
 #GUI Code
 import tkinter
 import customtkinter
-import SudokuSolverUI
-import SudokuGenerator
-import random
+import LOGIC_16SudokuSolver
 
 
 #solver Screen
@@ -13,8 +11,16 @@ def validate_input(value_if_allowed):
         return True
     return False
 
-# Function to create and display the grid
+#global variable to hold reference to current v. new frame
+grid_frame = None
+#function to create & display grid
 def create_grid():
+    global grid_frame
+
+    #clear any existing grid
+    if grid_frame is not None:
+        grid_frame.destroy()
+
     # Create a new frame for the Sudoku grid
     grid_frame = customtkinter.CTkFrame(app, width=800, height=800)
     grid_frame.pack(pady=20)
@@ -46,28 +52,23 @@ def create_grid():
                 fg_color=bg_color
             )
             entry.pack(expand=True, fill="both")
+            
             row_entries.append(entry)
         entries.append(row_entries)
 
 
     # Add a submit button below the grid
-    submit_button = customtkinter.CTkButton(app, text="Submit", command=lambda: process_grid(entries))
-    submit_button.pack(pady=10)
+    submit_button = customtkinter.CTkButton(grid_frame, text="Submit", command=lambda: process_grid(entries))
+    submit_button.grid(row=16, column=0, columnspan=16, pady=10)
 
-    print("Grid Created!")  # Debug message
     return entries
 
 # Function to process the grid and validate user input
 def process_grid(entries):
-    invalid_cells = SudokuSolverUI.isValidSudoku(entries)
+    invalid_cells = LOGIC_16SudokuSolver.isValidSudoku(entries)
     if invalid_cells:
-        # Highlight invalid cells
-        for row, col in invalid_cells:
-            entries[row][col].configure(fg_color="red")  # Highlight the invalid cell in red
-
         # Display an error message
         error_message = "Invalid entries detected at positions: " + ", ".join([f"({row+1}, {col+1})" for row, col in invalid_cells])
-        print(error_message)  # You can replace this with a pop-up or label in your UI
         error_label = customtkinter.CTkLabel(app, text=error_message, fg_color="red")
         error_label.pack(pady=10)
     else:
@@ -82,7 +83,7 @@ def process_grid(entries):
                     grid_row.append(0)  # Treat empty cells as 0
             grid.append(grid_row)
         
-        if SudokuSolverUI.solveSudoku(grid, 0, 0):
+        if LOGIC_16SudokuSolver.solveSudoku(grid, 0, 0):
             # If the Sudoku is solved, update the entries with the solution
             for i in range(16):
                 for j in range(16):
@@ -97,7 +98,7 @@ def process_grid(entries):
 def create_puzzle():
     entries=create_grid()
     # Generate a Sudoku puzzle and its solution
-    puzzle, solution = SudokuGenerator.generate_sudoku()
+    puzzle, solution = LOGIC_16SudokuSolver.generate_sudoku()
     
     # Update the entry widgets with the new puzzle
     for i in range(16):
@@ -105,10 +106,12 @@ def create_puzzle():
             entries[i][j].delete(0, 'end')  # Clear the current entry
             if puzzle[i][j] != 0:
                 entries[i][j].insert(0, str(puzzle[i][j]))  # Insert the new puzzle value
+                entries[i][j].configure(state='disabled')
             else:
                 entries[i][j].insert(0, '')  # Empty cell (value is 0)
     
     # Return the solution for later use (in case you need it for solving)
+    LOGIC_16SudokuSolver.printing(solution)
     return solution
 
 
