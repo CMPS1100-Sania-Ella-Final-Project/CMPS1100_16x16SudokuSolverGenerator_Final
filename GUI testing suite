@@ -1,0 +1,28 @@
+import unittest
+from unittest.mock import patch
+import tkinter as tk
+from your_module import SudokuApp  # Replace with the actual import
+
+class TestSudokuGUI(unittest.TestCase):
+    def setUp(self):
+        self.root = tk.Tk()
+        self.app = SudokuApp(self.root)
+
+    def tearDown(self):
+        self.app.destroy()
+        self.root.destroy()
+
+    @patch('builtins.input', side_effect=[
+        # Mock inputs for the Sudoku grid
+        '1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0',
+        # Add remaining 15 rows
+    ])
+    def test_sudoku_solver(self, mock_input):
+        # Simulate user clicking the 'Solve' button
+        self.app.solve_button.invoke()
+        # Capture the output and assert correctness
+        output = self.app.get_output()
+        self.assertIn('Solution', output)
+
+if __name__ == '__main__':
+    unittest.main()
